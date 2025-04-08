@@ -54,5 +54,13 @@
         </div>
       </div>
     </form>
+    <div class="keyboard-container">
+      <app-keyboard
+        [basicKeys]="keys()"
+        [removedKeys]="removedKeys()"
+        [presentKeys]="presentKeys()"
+        [correctKeys]="correctKeys()"
+        (keyPressed)="onVirtualKeyPress($event)"
+      ></app-keyboard>
   </div>
 </div>

@@ -1,0 +1,17 @@
+<div class="keyboard">
+  <div *ngFor="let row of keyRows" class="key-row">
+    <div
+      *ngFor="let key of row"
+      (click)="onKeyClick(key)"
+      [ngClass]="getKeyClass(key)"
+    >
+      {{ key }}
+    </div>
+  </div>
+  <div class="key-row">
+    <button (click)="onBackspaceClick()" class="key backspace">
+      BACKSPACE
+    </button>
+    <button (click)="onEnterClick()" class="key enter">ENTER</button>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { KeyboardComponent } from '../keyboard/keyboard.component';
 
 /**
  * Selects a random word from the provided word list
@@ -35,7 +36,7 @@ export function getCharCountInWord(word: string, char: string): number {
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, KeyboardComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss',
 })
@@ -55,6 +56,14 @@ export class HomepageComponent implements OnInit {
     .map(() => Array(5).fill(''));
   redobutton = false;
 
+  keys = signal<string[]>([
+    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+    'Z', 'X', 'C', 'V', 'B', 'N', 'M',
+  ]);
+  removedKeys = signal<string[]>([]);
+  presentKeys = signal<string[]>([]);
+  correctKeys = signal<string[]>([]);
   /**
    * Returns the rows FormArray from the main form
    */
@@ -272,10 +281,12 @@ export class HomepageComponent implements OnInit {
     for (let i = 0; i < 5; i++) {
       if (guess[i] === secretWord[i]) {
         this.guessResults[row][i] = 'correct';
+        this.correctKeys.set([...this.correctKeys(), guess[i]]);
       } else if (secretWord.includes(guess[i])) {
         this.guessResults[row][i] = 'present';
       } else {
         this.guessResults[row][i] = 'absent';
+        this.removedKeys.set([...this.removedKeys(), guess[i]]);
       }
     }
     for (let i = 0; i < 5; i++) {
@@ -296,7 +307,11 @@ export class HomepageComponent implements OnInit {
         }
       }
     }
-
+    for (let i = 0; i < 5 ; i++) {
+      if (this.guessResults[row][i] === 'present') {
+        this.presentKeys.set([...this.presentKeys(), guess[i]]);
+      }
+    }
     if (guess === secretWord) {
       setTimeout(() => {
         alert('Congratulations! You found the word!');
@@ -330,5 +345,34 @@ export class HomepageComponent implements OnInit {
     this.wordSet = new Set<string>();
     this.wordList = [];
     this.focusInput(0, 0);
+  }
+    onVirtualKeyPress(key: string) {
+    const rowIndex = this.currentRow();
+    const colIndex = this.currentCol();
+    console.log('key', key, 'rowIndex', rowIndex, 'colIndex', colIndex);
+    // Ensure the key is a single character and the current row is active
+    if (key.length === 1 && rowIndex < 6 && colIndex < 5) {
+      const lettersArray = this.getLettersArrayForRow(rowIndex);
+  
+      // Set the value of the current input box
+      lettersArray.at(colIndex).setValue(key.toUpperCase());
+  
+      // Move to the next input box
+      if (colIndex < 4) {
+        this.currentCol.set(colIndex + 1);
+        this.focusInput(rowIndex, colIndex + 1);
+      }
+    } else if (key === 'Backspace') {
+      // Handle backspace logic
+      if (colIndex > 0) {
+        this.currentCol.set(colIndex - 1);
+        this.focusInput(rowIndex, colIndex - 1);
+        const lettersArray = this.getLettersArrayForRow(rowIndex);
+        lettersArray.at(colIndex - 1).setValue('');
+      }
+    } else if (key === 'Enter') {
+      // Handle enter key to submit the row
+      this.checkCurrentRow();
+    }
   }
 }
