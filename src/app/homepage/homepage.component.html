@@ -1,0 +1,58 @@
+<div class="wordle-container">
+  <h1>Wordle Clone</h1>
+
+  <div *ngIf="!isStarted()" class="start-screen">
+    <button (click)="startGame()">Start Game</button>
+  </div>
+
+  <div *ngIf="isStarted()" class="game-board">
+    <form [formGroup]="guessForm">
+      <div formArrayName="rows" class="rows-container">
+        <div
+          *ngFor="
+            let rowControl of rowsFormArray.controls;
+            let rowIndex = index
+          "
+          [formGroupName]="rowIndex"
+          class="row"
+        >
+          <div formArrayName="letters" class="letters-container">
+            <input
+              *ngFor="
+                let letterControl of getLettersFormArray(rowIndex).controls;
+                let colIndex = index
+              "
+              [formControlName]="colIndex"
+              [id]="'input-' + rowIndex + '-' + colIndex"
+              class="letter-input"
+              [ngClass]="guessResults[rowIndex][colIndex]"
+              type="text"
+              maxlength="1"
+              autocapitalize="on"
+              autocomplete="off"
+              [readonly]="rowIndex !== currentRow()"
+              (keydown)="onKeyDown($event, rowIndex, colIndex)"
+              (input)="onInputChange($event, rowIndex, colIndex)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="actions-container">
+        <div class="submit-container" *ngIf="isStarted()">
+          <button
+            type="button"
+            (click)="checkCurrentRow()"
+            class="submit-button"
+          >
+            Submit
+          </button>
+        </div>
+        <div class="redobutton" *ngIf="redobutton">
+          <button type="button" (click)="reDoGame()" class="submit-button">
+            Restart
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
