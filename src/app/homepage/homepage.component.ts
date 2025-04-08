@@ -22,6 +22,16 @@ export function getRandomWord(words: string[]): string {
   return words[randomIndex];
 }
 
+export function getCharCountInWord(word: string, char: string): number {
+  let count = 0;
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === char) {
+      count++;
+    }
+  }
+  return count;
+}
+
 @Component({
   selector: 'app-homepage',
   standalone: true,
@@ -266,6 +276,24 @@ export class HomepageComponent implements OnInit {
         this.guessResults[row][i] = 'present';
       } else {
         this.guessResults[row][i] = 'absent';
+      }
+    }
+    for (let i = 0; i < 5; i++) {
+      if (this.guessResults[row][i] === 'present') {
+        let count = getCharCountInWord(secretWord, guess[i]);
+        console.log('present', guess[i], 'count', count);
+        for (let j = 0; j < 5; j++) {
+          if (this.guessResults[row][j] === 'correct' && guess[i] === guess[j]) {
+            count--;
+          }
+          if (this.guessResults[row][j] === 'present' && guess[i] === guess[j]) {
+            count--;
+          }
+        }
+        if (count  < 0) {
+          this.guessResults[row][i] = 'absent';
+          console.log('present', guess[i], 'count', count);
+        }
       }
     }
 
