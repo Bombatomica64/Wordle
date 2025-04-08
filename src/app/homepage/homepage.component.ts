@@ -151,7 +151,6 @@ export class HomepageComponent implements OnInit {
    */
   startGame() {
     this.secretWord.set(getRandomWord(this.wordList));
-    console.log('Secret word:', this.secretWord());
     this.isStarted.set(true);
     this.currentRow.set(0);
     this.currentCol.set(0);
@@ -292,7 +291,6 @@ export class HomepageComponent implements OnInit {
     for (let i = 0; i < 5; i++) {
       if (this.guessResults[row][i] === 'present') {
         let count = getCharCountInWord(secretWord, guess[i]);
-        console.log('present', guess[i], 'count', count);
         for (let j = 0; j < 5; j++) {
           if (this.guessResults[row][j] === 'correct' && guess[i] === guess[j]) {
             count--;
@@ -303,7 +301,6 @@ export class HomepageComponent implements OnInit {
         }
         if (count  < 0) {
           this.guessResults[row][i] = 'absent';
-          console.log('present', guess[i], 'count', count);
         }
       }
     }
@@ -326,7 +323,7 @@ export class HomepageComponent implements OnInit {
       this.focusInput(row + 1, 0);
     } else {
       setTimeout(() => {
-        alert(`Game Over! The word was: ${secretWord}`);
+        alert(`Game Over! The word was: ${secretWord.toUpperCase()}`);
       }, 100);
     }
   }
@@ -349,7 +346,6 @@ export class HomepageComponent implements OnInit {
     onVirtualKeyPress(key: string) {
     const rowIndex = this.currentRow();
     const colIndex = this.currentCol();
-    console.log('key', key, 'rowIndex', rowIndex, 'colIndex', colIndex);
     // Ensure the key is a single character and the current row is active
     if (key.length === 1 && rowIndex < 6 && colIndex < 5) {
       const lettersArray = this.getLettersArrayForRow(rowIndex);

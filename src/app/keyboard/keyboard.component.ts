@@ -45,7 +45,6 @@ export class KeyboardComponent {
     } else if (this.presentKeys.includes(key) && !this.correctKeys.includes(key)) {
       return 'key present';
     } else if (this.correctKeys.includes(key)) {
-      console.log('Key is corr:', key);
       return 'key correct';
     }
     return 'key';
