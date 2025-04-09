@@ -1,3 +1,11 @@
+<app-alert 
+  *ngIf="showAlert()"
+  [message]="alertMessage()"
+  [type]="alertType()"
+  [dismissible]="true"
+  (close)="showAlert.set(false)">
+</app-alert>
+
 <div class="wordle-container">
   <h1>WORDLE</h1>
 
