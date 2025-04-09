@@ -1,22 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .wordle-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 500px;
   margin: 0 auto;
-
+  
   h1 {
     margin-bottom: 30px;
+    font-family: "Space mono";
   }
   background: linear-gradient(145deg, #c4e1f6, #ff9d3d);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   border-radius: 12px 12px 12px 12px;
   padding: 0 0 20px 0;
+  /* animation: rainbow-shadow 10s linear infinite; */
 }
 
 .start-screen {
   margin: 50px 0;
-
+  
   button {
     padding: 12px 24px;
     font-size: 18px;
@@ -25,7 +39,7 @@
     color: white;
     border: none;
     border-radius: 4px;
-
+    
     &:hover {
       background-color: #538d4e;
     }
@@ -65,25 +79,25 @@
     outline: none;
     border-color: #878a8c;
   }
-
+  
   &.correct {
     background-color: #6aaa64;
     color: white;
     border-color: #6aaa64;
   }
-
+  
   &.present {
     background-color: #c9b458;
     color: white;
     border-color: #c9b458;
   }
-
+  
   &.absent {
     background-color: #787c7e;
     color: white;
     border-color: #787c7e;
   }
-
+  
   &[readonly] {
     cursor: not-allowed;
   }
@@ -99,11 +113,11 @@
   border: none;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-
+  
   &:hover {
     background-color: #243f50;
   }
-
+  
   &:disabled {
     background-color: #d3d6da;
     cursor: not-allowed;
@@ -126,3 +140,183 @@
 .redobutton {
   display: inline-block;
 }
+
+/* WAVE */
+
+.wave-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+// Wave container
+.waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+}
+
+// Create individual waves using SVG-like shapes with CSS
+.wave {
+  position: absolute;
+  left: -100%;  // Start completely off-screen to the left
+  width: 200%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  background: transparent;
+  
+  &:nth-child(1) {
+    bottom: -25%;
+    opacity: 0.5;
+    background: linear-gradient(0deg, rgba(255, 0, 0, 0) 50%, rgba(255, 0, 0, 0.4) 100%);
+    border-radius: 100% 100% 0 0;
+    animation: wave-shift-1 20s linear infinite;
+  }
+  
+  // Orange wave
+  &:nth-child(2) {
+    bottom: -30%;
+    opacity: 0.45;
+    background: linear-gradient(0deg, rgba(255, 165, 0, 0) 50%, rgba(255, 165, 0, 0.4) 100%);
+    border-radius: 95% 95% 0 0;
+    animation: wave-shift-2 22s linear infinite;
+  }
+  
+  // Yellow wave
+  &:nth-child(3) {
+    bottom: -35%;
+    opacity: 0.4;
+    background: linear-gradient(0deg, rgba(255, 255, 0, 0) 50%, rgba(255, 255, 0, 0.4) 100%);
+    border-radius: 90% 90% 0 0;
+    animation: wave-shift-3 19s linear infinite;
+  }
+  
+  // Green wave
+  &:nth-child(4) {
+    bottom: -40%;
+    opacity: 0.45;
+    background: linear-gradient(0deg, rgba(0, 128, 0, 0) 50%, rgba(0, 128, 0, 0.4) 100%);
+    border-radius: 85% 85% 0 0;
+    animation: wave-shift-4 24s linear infinite;
+  }
+  
+  // Blue wave
+  &:nth-child(5) {
+    bottom: -45%;
+    opacity: 0.4;
+    background: linear-gradient(0deg, rgba(0, 0, 255, 0) 50%, rgba(0, 0, 255, 0.4) 100%);
+    border-radius: 80% 80% 0 0;
+    animation: wave-shift-5 21s linear infinite;
+  }
+  
+  // Indigo wave
+  &:nth-child(6) {
+    bottom: -50%;
+    opacity: 0.35;
+    background: linear-gradient(0deg, rgba(75, 0, 130, 0) 50%, rgba(75, 0, 130, 0.4) 100%);
+    border-radius: 75% 75% 0 0;
+    animation: wave-shift-6 23s linear infinite;
+  }
+  
+  // Violet wave
+  &:nth-child(7) {
+    bottom: -55%;
+    opacity: 0.3;
+    background: linear-gradient(0deg, rgba(148, 0, 211, 0) 50%, rgba(148, 0, 211, 0.4) 100%);
+    border-radius: 70% 70% 0 0;
+    animation: wave-shift-7 25s linear infinite;
+  }
+}
+
+// Wave animations - key fix: make the animations go from -100% to 100% instead of 0% to 100%
+@keyframes wave-shift-1 {
+  0% {
+    transform: translateX(-50%) scaleY(1);
+  }
+  50% {
+    transform: translateX(100%) scaleY(0.95);
+  }
+  100% {
+    transform: translateX(150%) scaleY(1);
+  }
+}
+
+@keyframes wave-shift-2 {
+  0% {
+    transform: translateX(-50%) scaleY(1.05);
+  }
+  50% {
+    transform: translateX(100%) scaleY(1);
+  }
+  100% {
+    transform: translateX(150%) scaleY(1.05);
+  }
+}
+
+@keyframes wave-shift-3 {
+  0% {
+    transform: translateX(-50%) scaleY(0.9);
+  }
+  50% {
+    transform: translateX(100%) scaleY(1);
+  }
+  100% {
+    transform: translateX(150%) scaleY(0.9);
+  }
+}
+
+@keyframes wave-shift-4 {
+  0% {
+    transform: translateX(-50%) scaleY(1.1) skewY(1deg);
+  }
+  50% {
+    transform: translateX(100%) scaleY(1) skewY(0deg);
+  }
+  100% {
+    transform: translateX(150%) scaleY(1.1) skewY(-1deg);
+  }
+}
+
+@keyframes wave-shift-5 {
+  0% {
+    transform: translateX(-50%) scaleY(1.1) skewY(1deg);
+  }
+  50% {
+    transform: translateX(100%) scaleY(1) skewY(0deg);
+  }
+  100% {
+    transform: translateX(150%) scaleY(1.1) skewY(-1deg);
+  }
+}
+
+@keyframes wave-shift-6 {
+  0% {
+    transform: translateX(-50%) scaleY(1.1) skewY(1deg);
+  }
+  50% {
+    transform: translateX(100%) scaleY(1) skewY(0deg);
+  }
+  100% {
+    transform: translateX(150%) scaleY(1.1) skewY(-1deg);
+  }
+}
+
+@keyframes wave-shift-7 {
+  0% {
+    transform: translateX(-50%) scaleY(1.1) skewY(1deg);
+  }
+  50% {
+    transform: translateX(100%) scaleY(1) skewY(0deg);
+  }
+  100% {
+    transform: translateX(150%) scaleY(1.1) skewY(-1deg);
+  }
+}
+

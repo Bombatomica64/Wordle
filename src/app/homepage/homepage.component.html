@@ -1,5 +1,15 @@
 <div class="wordle-container">
-  <h1>Wordle Clone</h1>
+  <h1>WORDLE</h1>
+
+  <div *ngIf="isStarted()" class="wave-background">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
 
   <div *ngIf="!isStarted()" class="start-screen">
     <button (click)="startGame()">Start Game</button>
