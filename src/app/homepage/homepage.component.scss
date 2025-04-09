@@ -3,7 +3,7 @@ body {
   padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  position: relative;
+  /* position: relative; */
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
@@ -19,6 +19,9 @@ body {
   
   h1 {
     margin-bottom: 30px;
+    font-family: "Space mono";
+  }
+  h3 {
     font-family: "Space mono";
   }
   background: linear-gradient(145deg, #c4e1f6, #ff9d3d);

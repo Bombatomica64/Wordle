@@ -1,6 +1,11 @@
 <div class="wordle-container">
   <h1>WORDLE</h1>
 
+
+  <h3 *ngIf="!isStarted()">One word</h3>
+  <h3 *ngIf="!isStarted()">Five letters</h3>
+  <h3 *ngIf="!isStarted()">Six tries</h3>
+
   <div *ngIf="isStarted()" class="wave-background">
     <div class="wave"></div>
     <div class="wave"></div>
